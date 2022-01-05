@@ -25,7 +25,7 @@ class Game {
     startGame() {
         const overlay = document.getElementById('overlay');
         overlay.style.display = 'none';
-        //Get new "Phrase" and save it, then populate the page with missing letter tiles.
+        //Get new "Phrase" and save it, then populate the page with missing letter tiles for the "phrase".
         this.newPhrase = new Phrase(this.getRandomPhrase());
         this.newPhrase.addPhraseToDisplay();
     }
