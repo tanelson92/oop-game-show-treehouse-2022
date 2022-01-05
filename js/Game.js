@@ -17,12 +17,23 @@ class Game {
         this.win = false;
     }
 
+    /*
+    *   startGame method
+    *   initiates a new instance of "Phrase" as a property of Game. 
+    */
+
     startGame() {
         const overlay = document.getElementById('overlay');
         overlay.style.display = 'none';
+        //Get new "Phrase" and save it, then populate the page with missing letter tiles.
         this.newPhrase = new Phrase(this.getRandomPhrase());
         this.newPhrase.addPhraseToDisplay();
     }
+
+    /*
+    *   getRandomPhrase method
+    *   Returns a random phrase from the instance of "Game" phrase array.
+    */
 
     getRandomPhrase() {
         let random = Math.ceil(Math.random() * this.phrase.length - 1);
@@ -31,46 +42,69 @@ class Game {
         return selected;
     }
 
+    /*
+    *   handleInteraction method
+    *   Determines whether the key provided is a valid letter and whether or 
+    *   not the user wins or loses the game as a result of their selection
+    */
+
     handleInteraction(target) {
         const letter = target.textContent || target;
         const phrase = this.newPhrase;
         const keys = document.querySelectorAll('.key');
+        //disable selected key
         keys.forEach(key => {
             if (key.textContent === letter) {
                 key.disabled = true;
             }
         });
-        let isLetter = phrase.checkLetter(letter);
+        //If the letter is a letter of the phrase...
+        let isLetter = phrase.checkLetter(letter); 
         if (isLetter) {
+            //add the class "chosen" to denote it as such, then show the letter.
             keys.forEach(key => {
                 if (key.textContent === letter) {
                     key.classList.add('chosen');
                 }
             });
             phrase.showMatchedLetter(letter);
+            //Check to see if all letters have been selected, if so, the user wins.
             let playerWon = this.checkForWin();
             if (playerWon) { this.gameOver(true) }
         } else {
+            //If the letter is NOT a valid letter of the phrase, add the class "wrong" to denote it as such
             keys.forEach(key => {
                 if (key.textContent === letter) {
                     key.classList.add('wrong');
                 }
             });
+            //Increment missed total by 1 and remove a life. 
             this.missed++;
             this.removeLife();
         }
     }
 
+    /*
+    *   removeLife method
+    *   Remove a users life and determine if the player loses.
+    */
+
     removeLife() {
         let lives = document.querySelectorAll('.tries img');
         let missed = this.missed;
         let playerLost = missed === 5;
+        //If player has missed 5 attempts, the they lose.
         if (playerLost) { 
             this.gameOver(false);
             return;
         }
         lives[missed - 1].src = 'images/lostHeart.png';
     }
+
+    /*
+    *   checkForWin method
+    *   Determine if user wins based on whether all hidden letters have been selected.
+    */
 
     checkForWin() {
         let letters = document.querySelectorAll('.letter');
@@ -83,6 +117,12 @@ class Game {
         return win;
     }
 
+    /*
+    *   gameOver method
+    *   Reveal the hidden overlay with the appropriate text based 
+    *   on whether the user won or lost. 
+    */
+
     gameOver(win) {
         const overlay = document.getElementById('overlay');
         const title = overlay.querySelector('h2');
@@ -93,8 +133,14 @@ class Game {
             overlay.className = 'lose';
             title.textContent = "Sorry, Try Again!"
         }
+        //reset the game.
         this.resetGame();
     }
+
+    /*
+    *   resetGame method
+    *   reset the game once the user has won or lost. 
+    */
 
     resetGame() {
         const overlay = document.getElementById('overlay');
