@@ -20,8 +20,7 @@ class Game {
     startGame() {
         const overlay = document.getElementById('overlay');
         overlay.style.display = 'none';
-        this.getRandomPhrase();
-        this.newPhrase = new Phrase(this.activePhrase);
+        this.newPhrase = new Phrase(this.getRandomPhrase());
         this.newPhrase.addPhraseToDisplay();
     }
 
@@ -29,19 +28,34 @@ class Game {
         let random = Math.ceil(Math.random() * this.phrase.length - 1);
         let selected = this.phrase[random];
         this.activePhrase = selected;
+        return selected;
     }
 
     handleInteraction(target) {
-        const letter = target.textContent;
+        const letter = target.textContent || target;
         const phrase = this.newPhrase;
-        target.disabled = true;
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => {
+            if (key.textContent === letter) {
+                key.disabled = true;
+            }
+        });
         let isLetter = phrase.checkLetter(letter);
         if (isLetter) {
-            target.classList.add('chosen');
+            keys.forEach(key => {
+                if (key.textContent === letter) {
+                    key.classList.add('chosen');
+                }
+            });
             phrase.showMatchedLetter(letter);
             let playerWon = this.checkForWin();
             if (playerWon) { this.gameOver(true) }
         } else {
+            keys.forEach(key => {
+                if (key.textContent === letter) {
+                    key.classList.add('wrong');
+                }
+            });
             this.missed++;
             this.removeLife();
         }
@@ -55,7 +69,7 @@ class Game {
             this.gameOver(false);
             return;
         }
-        lives[missed - 1].src = 'images/lostHeart.png';   
+        lives[missed - 1].src = 'images/lostHeart.png';
     }
 
     checkForWin() {
@@ -92,10 +106,10 @@ class Game {
             life.src = 'images/liveHeart.png';
         }
         const buttons = document.querySelectorAll('.key');
-        for (const button of buttons) {
+        buttons.forEach(button => {
             button.disabled = false;
-            button.classList.remove('chosen');
-        }
+            button.classList.remove('chosen','wrong');
+        });
     }
 
 }

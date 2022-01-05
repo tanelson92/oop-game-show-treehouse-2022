@@ -6,7 +6,7 @@ class Phrase {
     constructor(phrase) {
         this.phrase = phrase.toLowerCase();
     }
-    
+
     addPhraseToDisplay() {
         const container = document.querySelector('#phrase ul');
         for (const letter of this.phrase) {
@@ -27,7 +27,7 @@ class Phrase {
     }
 
     showMatchedLetter(letter) {
-        const letters = document.querySelectorAll('.'+letter);
+        const letters = document.querySelectorAll('.' + letter);
         for (const letter of letters) {
             letter.classList.add('show');
             letter.classList.remove('hide');
