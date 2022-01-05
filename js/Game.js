@@ -98,18 +98,20 @@ class Game {
 
     resetGame() {
         const overlay = document.getElementById('overlay');
-        overlay.style.display = 'flex';
         const container = document.querySelector('#phrase ul');
-        container.innerHTML = "";
         const lives = document.querySelectorAll('.tries img');
+        const buttons = document.querySelectorAll('.key');
+        overlay.style.display = 'flex';
+        container.innerHTML = "";
         for (const life of lives) {
             life.src = 'images/liveHeart.png';
-        }
-        const buttons = document.querySelectorAll('.key');
+        }        
         buttons.forEach(button => {
             button.disabled = false;
             button.classList.remove('chosen','wrong');
         });
+        this.missed = 0;
+        this.activePhrase = null;
     }
 
 }

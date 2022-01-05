@@ -11,7 +11,11 @@ class Phrase {
         const container = document.querySelector('#phrase ul');
         for (const letter of this.phrase) {
             const newLetter = document.createElement('li');
-            newLetter.textContent = letter; //add letter to html
+            //newLetter.textContent = letter; //add letter to html
+            const letterContainer = document.createElement('span');
+            //letterContainer.className = 'letter-fade';
+            letterContainer.textContent = letter;
+            newLetter.append(letterContainer);
             if (!letter.includes(' ')) {
                 newLetter.classList.add('hide', 'letter', letter);
             } else {
@@ -28,9 +32,15 @@ class Phrase {
 
     showMatchedLetter(letter) {
         const letters = document.querySelectorAll('.' + letter);
-        for (const letter of letters) {
-            letter.classList.add('show');
-            letter.classList.remove('hide');
-        }
+        let delay = 500;
+            for (const letter of letters) {
+                const letterContainer = letter.getElementsByTagName('span')[0];
+                let waitALittle = setTimeout(() => {
+                    letter.classList.add('show');
+                    letterContainer.classList.add('letter-fade');
+                }, delay);
+                letter.classList.remove('hide');
+                delay += 500;
+            }
     }
 }

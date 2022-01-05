@@ -47,7 +47,7 @@ h1 {
 }
 
 button {
-  margin: 6px;
+  margin: 4px;
   border: 1px solid transparent;
   padding: .5rem 1rem;
   color: var(--color-keys);
@@ -93,14 +93,31 @@ button {
 /* Phrase */
 
 .letter {
+  position:relative;
   font-size: var(--font-size-medium);
   height: 65px;
   width: 65px;
+  font-weight: bold;
   padding: 20px 1px 0 1px;
   margin-right: 2px;
   color: transparent;
   background: var(--color-neutral-light);
   border-radius: 5px;
+}
+
+.letter > span {
+  position:absolute;
+  top: -150%;
+  left: -150%;
+  overflow:hidden;
+  transform: translate3d(-50%,-200%,0);
+  transition: transform 1s ease;
+}
+
+.letter-fade {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate3d(-50%,-50%,0) !important;
 }
 
 .space {
@@ -111,7 +128,7 @@ button {
 
 .show {
   color: #fff;
-  background-color: #4ac0d5;
+  background-color: #358C5B;
   font-size: 20px;
   height: 65px;
   width: 65px;
