@@ -32,10 +32,7 @@ class Phrase {
     *   checkLetter method
     *   Checks to ensure that letter is part of the selected phrase.
     */
-    checkLetter(letter) {
-        //check to see if letter matches letter selected by a player.
-        if (this.phrase.includes(letter)) return true;
-    }
+    checkLetter(letter) { return this.phrase.includes(letter) }
 
     /*
     *   showMatchedLetter method
@@ -53,7 +50,7 @@ class Phrase {
                 letterContainer.classList.add('letter-fade');
             }, delay);
             letter.classList.remove('hide');
-            delay += 500;
+            delay += 250;
         }
     }
 }

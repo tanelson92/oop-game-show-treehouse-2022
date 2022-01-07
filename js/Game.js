@@ -5,16 +5,28 @@
 class Game {
     constructor() {
         this.missed = 0;
-        this.phrase = [
+        this.phrases = this.createPhrases();
+        this.activePhrase = null;
+        this.win = false;
+    }
+
+    /*
+    *   createPhrases Method
+    *   Retrieves all phrases for the "phrases" property of our Game instance. 
+    */
+
+    createPhrases() {
+        let phrases = [
             'Heavy is the head that wears the crown',
             'The night is darkest before the dawn',
             'A blessing in disguise',
             'Bite the bullet',
             'Easy does it'
-        ];
-        this.activePhrase = null;
-        this.newPhrase = null;
-        this.win = false;
+        ]
+        let obj = phrases.map(phrase => {
+            return new Phrase(phrase);
+        });
+        return obj;
     }
 
     /*
@@ -26,8 +38,7 @@ class Game {
         const overlay = document.getElementById('overlay');
         overlay.style.display = 'none';
         //Get new "Phrase" and save it, then populate the page with missing letter tiles for the "phrase".
-        this.newPhrase = new Phrase(this.getRandomPhrase());
-        this.newPhrase.addPhraseToDisplay();
+        this.getRandomPhrase();
     }
 
     /*
@@ -36,9 +47,11 @@ class Game {
     */
 
     getRandomPhrase() {
-        let random = Math.ceil(Math.random() * this.phrase.length - 1);
-        let selected = this.phrase[random];
+        let numberOfPhrases = Object.keys(this.phrases).length;
+        let random = Math.ceil(Math.random() * numberOfPhrases - 1);
+        let selected = this.phrases[random];
         this.activePhrase = selected;
+        this.activePhrase.addPhraseToDisplay();
         return selected;
     }
 
@@ -50,7 +63,7 @@ class Game {
 
     handleInteraction(target) {
         const letter = target.textContent || target;
-        const phrase = this.newPhrase;
+        const phrase = this.activePhrase;
         const keys = document.querySelectorAll('.key');
         //disable selected key
         keys.forEach(key => {

@@ -109,7 +109,7 @@ button {
   left: -150%;
   overflow:hidden;
   transform: translate3d(-50%,-200%,0);
-  transition: transform 1s ease;
+  transition: transform 0.5s ease;
 }
 
 .letter-fade {
